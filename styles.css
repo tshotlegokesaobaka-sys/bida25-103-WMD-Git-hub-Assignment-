@@ -1,7 +1,7 @@
 body {
     font-family:Arial,sans-serif;
-    color: #333;
-background-color:#96e2f7;
+    color: white;
+background-image: url("Images/wallpaper.jpg");
 margin:0;
 padding:0;
 line-height: 1.6;
@@ -11,7 +11,16 @@ header{
     color:white;
     padding:20px;
     text-align:center;
+    
 
+}
+
+#div1 {
+    border-radius: 25px;
+    background-color: #2283be;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
 }
 
 header h1{
