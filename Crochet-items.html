@@ -61,6 +61,12 @@
 
                         </li>
 
+                        <li class="nav-item">
+
+                            <a class="nav-link" href="cart.html">🛒</a>
+
+                        </li>
+
                     </li> 
 
                 </ul> 
@@ -90,7 +96,9 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Cardigan</h5>
                                     <p class="card-text">P250-P450 handmade cardigan that is stylish and can be worn with any outfit on anyday.</p>
-                                    <a href="#" class="btn btn-primary">Inquire</a>
+                                    <p>
+                                        <button onclick="addToCart('Cardigan' , 250)">Add to Cart</button>
+                                    </p>
                                     </div>
                                 </div>
                             </div>
@@ -100,8 +108,10 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">charms</h5>
                                                 <p class="card-text">P20 Small crochet decorations that can be used as bag or key accessories.</p>
-                                                <a href="#" class="btn btn-primary">Inquire</a>
-                                                   </div>
+                                                 <p>
+                                                    <button onclick="addToCart('Charms' , 20)">Add to Cart</button>
+                                                  </p>
+                                                </div>
                                             </div>
                                      </div>
                                       <div class="col">
@@ -110,7 +120,9 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title">Donutbag</h5>
                                                     <p class="card-text">P200 Unique fashion handmade handbag,comes in variety of colors and can hold small items.</p>
-                                                    <a href="#"class="btn btn-primary">Inquire</a>
+                                                     <p>
+                                        <button onclick="addToCart('Donutbag' , 200)">Add to Cart</button>
+                                    </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -120,7 +132,9 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title">Rufflehat</h5>
                                                     <p class="card-text">P250-P300 With this trendy ruffle hat , u can add some details to a simple outfit and also merges perfectly for every aesthetics.</p>
-                                                    <a href="#"class="btn btn-primary">Inquire</a>
+                                                     <p>
+                                        <button onclick="addToCart('Rufflehat' , 250)">Add to Cart</button>
+                                    </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -130,7 +144,9 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title">Scrunchies</h5>
                                                     <p class="card-text">P15-P30 handmade hair accessories that add charm and come in a variety of colors.</p>
-                                                    <a href="#"class="btn btn-primary">Inquire</a>
+                                                     <p>
+                                        <button onclick="addToCart('scrunchies' , 30)">Add to Cart</button>
+                                    </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -140,7 +156,9 @@
                                                     <div class="card-body">
                                                         <h5 class="card-text">Shrug</h5>
                                                         <p class="card-text">P120 light weight cover up for strip tops and dresses , it can aslo be worn at any timeand add styles to outfit.</p>
-                                                        <a href="#"class="btn btn-primary">Inquire</a>
+                                                         <p>
+                                        <button onclick="addToCart('Shrug' , 120)">Add to Cart</button>
+                                    </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,7 +168,9 @@
                                                     <div class="card-body">
                                                         <h5 class="card-text">Swim wear</h5>
                                                         <p class="card-text">P250-P450 Custom unique bikini set </p>
-                                                        <a href="#"class="btn btn-primary">Inquire</a>
+                                                         <p>
+                                        <button onclick="addToCart('Swimwear' , 250)">Add to Cart</button>
+                                    </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,6 +185,23 @@
 
 
 <footer>
+
+    <script>
+        function addToCart(item,price) {
+            // Get current cart count from localStorage
+            var count = localStorage.getItem("cartcount");
+            if (!count) {
+                count = 0;
+            }
+            count=parseInt(count) +1;
+
+            //save new count
+            localStorage.setItem("cartCount" , count);
+            
+            //Redirect to cart.html with item info in the URL
+            window.location.href = "cart.html?item=" + item + "&price=" + price;
+        }
+    </script>
 
 <p>&copy; 2026 Kesaobaka Tshotlego</p>
 
