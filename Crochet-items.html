@@ -174,6 +174,18 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                             <div class="col">
+                                                <div class="card h-100">
+                                                    <img src="Images/T-shirt.jpg"class="card-img-top"alt="T-shirt">
+                                                    <div class="card-body">
+                                                        <h5 class="card-text">T-shirt</h5>
+                                                        <p class="card-text">P350 Custom unique Men's T-shirt  </p>
+                                                         <p>
+                                        <button onclick="addToCart('T-shirt' , 350)">Add to Cart</button>
+                                    </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
     
@@ -197,7 +209,7 @@
 
             //save new count
             localStorage.setItem("cartCount" , count);
-            
+
             //Redirect to cart.html with item info in the URL
             window.location.href = "cart.html?item=" + item + "&price=" + price;
         }
