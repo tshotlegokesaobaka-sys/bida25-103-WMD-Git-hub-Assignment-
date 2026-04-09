@@ -1,13 +1,15 @@
 body {
     font-family:Arial,sans-serif;
-    color: white;
-background-image: url("Images/wallpaper.jpg");
+    color: black;
+background-color:white;
 margin:0;
 padding:0;
 line-height: 1.6;
+
 }
+
 header{
-    background-color:#2283be;
+    background-color:#efa7c7fb;
     color:white;
     padding:20px;
     text-align:center;
