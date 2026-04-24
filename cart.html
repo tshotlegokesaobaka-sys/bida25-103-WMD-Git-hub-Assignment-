@@ -7,25 +7,25 @@
     <link rel="stylesheet" href="styles.css">
 <style>
     .row {
-  display: -ms-flexbox; /* IE10 */
+  display: -ms-flexbox; 
   display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
+  -ms-flex-wrap: wrap; 
   flex-wrap: wrap;
   margin: 0 -16px;
 }
 
 .col-25 {
-  -ms-flex: 25%; /* IE10 */
+  -ms-flex: 25%; 
   flex: 25%;
 }
 
 .col-50 {
-  -ms-flex: 50%; /* IE10 */
+  -ms-flex: 50%; 
   flex: 50%;
 }
 
 .col-75 {
-  -ms-flex: 75%; /* IE10 */
+  -ms-flex: 75%; 
   flex: 75%;
 }
 
@@ -80,7 +80,7 @@ span.price {
   color: grey;
 }
 
-/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+
 @media (max-width: 800px) {
   .row {
     flex-direction: column-reverse;
@@ -107,7 +107,7 @@ span.price {
 
             <div class="collapse navbar-collapse" id="navbarNav"> 
 
-                <ul class="navbar-nav"> 
+                <ul class="navbar-nav me-auto"> 
 
                     <li class="nav-item"> 
 
@@ -140,18 +140,29 @@ span.price {
                         <a class="nav-link" href="ContactUs.html">Contact</a> 
 
                     </li>
+                </ul>
+            </div>
+        </div>
+        <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item">
+
+                <a class="nav-link" href="SignUp/Login.html">Login/SignUp</a>
+                
+            </li>
                     
                     <li class="nav-item">
 
                         <a class="nav-link" href="cart.html">🛒</a>
 
                     </li>
+        </ul>
 
-                </ul> 
+                
 
-            </div> 
+             
 
-        </div>
+        
     </nav> 
 
         </header>

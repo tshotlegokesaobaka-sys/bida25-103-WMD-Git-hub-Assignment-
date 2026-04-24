@@ -9,8 +9,94 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+body {font-family: Arial, Helvetica, sans-serif;
+      color: #656017;
+      background-color: #ffdede;
+      margin: 0;
+      padding: 0;
+    line-height: 1.6;}
+
+    header{
+    background-color:rgb(70, 70, 70);
+    color:white;
+    padding:20px;
+    text-align:center;
+    
+
+}
+
+#div1 {
+    border-radius: 25px;
+    background-color: #2283be;
+    padding: 20px;
+    width: 200px;
+    height: 150px;
+}
+
+header h1{
+    margin:0;
+}
+
+nav a {
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+nav a:hover{
+    text-decoration:underline;
+}
+.card{
+    transition:transform0.2s;
+}
+.card:hover {
+    transform:scale(1.02);
+    box-shadow:0 4px 8px rgba(5, 245, 177, 0.1);
+
+}
+
+main{
+    padding:20px;
+    max-width:800px;
+    margin:0 auto;
+}
+main img {
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin:20px 0;
+}
+footer{
+    background-color:#333;
+    color:white;
+    text-align:center;
+    padding:10px;
+    position: fixed;
+    bottom:0;
+    width: 100%;
+}
+p{
+    font-size:1.1em;
+}
+
+a{
+    color:#2283be;
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:underline;
+}
+
+img{
+    border:5px solid #e1efef;
+    border-radius:10px;
+}
+main a [href^="mailto:"]{
+    color: #ff5722;
+    font-weight:bold;
+}
+ *{box-sizing: border-box;}
 
 
 input[type=text], input[type=password] {
@@ -96,7 +182,7 @@ hr {
   cursor: pointer;
 }
 
-.clearfix::after {
+.clearfix:after {
   content: "";
   clear: both;
   display: table;

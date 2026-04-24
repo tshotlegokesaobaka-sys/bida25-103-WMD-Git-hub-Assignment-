@@ -1,7 +1,7 @@
 body {
     font-family:Arial,sans-serif;
-    color: black;
-background-color:white;
+    color: white;
+background-color:pink;
 margin:0;
 padding:0;
 line-height: 1.6;
@@ -9,7 +9,7 @@ line-height: 1.6;
 }
 
 header{
-    background-color:#efa7c7fb;
+    background-color:rgb(70, 70, 70);
     color:white;
     padding:20px;
     text-align:center;
@@ -39,11 +39,11 @@ nav a:hover{
     text-decoration:underline;
 }
 .card{
-    transition:trnaform0.2s;
+    transition:transform0.2s;
 }
 .card:hover {
     transform:scale(1.02);
-    box-shadow:0 4px 8px rgba(0,0,0,0.1);
+    box-shadow:0 4px 8px rgba(5, 245, 177, 0.1);
 
 }
 
@@ -65,7 +65,7 @@ footer{
     padding:10px;
     position: fixed;
     bottom:0;
-    width:100%;
+    width: 100%;
 }
 p{
     font-size:1.1em;
@@ -87,4 +87,19 @@ img{
 main a [href^="mailto:"]{
     color: #ff5722;
     font-weight:bold;
+}
+
+main img {
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin:20px 0;
+}
+
+main img{
+    max-width:100%;
+    height:50%;
+    display:block;
+    margin:20px 0;
+
 }
