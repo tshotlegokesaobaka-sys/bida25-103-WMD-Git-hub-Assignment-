@@ -247,17 +247,16 @@ span.price {
                 </div>
             </div>
         </div>
-         <footer>
+         
     <footer>
         <p>&copy; 2026 Kesaobaka Tshotlego</p>
-            </footer>
+    </footer>
 
             <script>
-                //Show cart count
                 var count = localStorage.getItem("cartCount") || 0;
                 document.querySelector(".price b") .innerText = count;
 
-                // Show item from URL
+            
                 var params = new URLSearchParams(window.locatio.search);
                 var item = params.get("item");
                 var price = params.get("price");

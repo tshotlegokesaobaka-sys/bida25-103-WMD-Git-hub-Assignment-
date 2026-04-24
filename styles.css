@@ -1,7 +1,7 @@
 body {
     font-family:Arial,sans-serif;
-    color: white;
-background-color:pink;
+    color: #656017;
+background-color:#ffdede;
 margin:0;
 padding:0;
 line-height: 1.6;
@@ -9,7 +9,7 @@ line-height: 1.6;
 }
 
 header{
-    background-color:rgb(70, 70, 70);
+    background-color:black;
     color:white;
     padding:20px;
     text-align:center;
