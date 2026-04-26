@@ -211,17 +211,17 @@
 
     <script>
         function addToCart(item,price) {
-            // Get current cart count from localStorage
+            
             var count = localStorage.getItem("cartcount");
             if (!count) {
                 count = 0;
             }
             count=parseInt(count) +1;
 
-            //save new count
+            
             localStorage.setItem("cartCount" , count);
 
-            //Redirect to cart.html with item info in the URL
+            
             window.location.href = "cart.html?item=" + item + "&price=" + price;
         }
     </script>
