@@ -165,7 +165,8 @@ span.price {
         
     </nav> 
 
-        </header>
+    </header>
+    <main class="container my-4">
 
         <h2> Checkout </h2>
         <div class="row">
@@ -210,9 +211,9 @@ span.price {
                             </div>
                             <div class="col-50">
                                 <h3>Payment</h3>
-                                <label for="fname">Accepted Cards</label>
+                                <label class="form-label">Accepted Cards</label>
                                 <div class="icon-container">
-                                    <i class="Y2Kesa-cc-visa" style="color:navy;"></i>
+                                    <i class="fab fa-cc-visa" style="color:navy;"></i>
                                 </div>
                                 <label for="cname">Name on Card</label>
                                 <input type="text" id="cname" name="cardname" placeholder="Kesaobaka Tshotlego">
@@ -240,38 +241,257 @@ span.price {
                 </div>
             </div>
             <div class="col-25">
-                <div class="container">
-                    <h4>Cart
-                        <span class="price" style="color:white" ><i class="Y2Kesa-Shopping-Cart"></i> <b>0</b></span>
-                    </h4>
+                <div class="card shadow-sm mb-4">
+                    <div class="Card-header bg-dark text-white">
+                    <h4 class="mb-0"><i class="fas fa-shopping-cart"></i>Your items</h4>
+                        
+                </div>
+                <div class="card-body" id="cartItemsList">
+                    <div class="text-muted text-center">Loading Cart...</div>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>SubTotal:</span>
+                        <span id="subtotalDisplay">P0.00</span>
+                    </div>
+                    <div class="mb-3" id="discountSection">
+                        <label for="discountCode" class="form-label fw-bold">First-time buyer discount?</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="discountCode" placeholder="Enter code:Y2K10">
+                            <button class="btn btn-outline-sucess" type="button" id="applyDiscountBtn">Apply</button>
+                        </div>
+                        <small class="text-muted">First-time customers get 10% off(code<strong>Y2K10</strong>).use once only.</small>
+                        <div id="discountMessage" class="mt-2 small"></div>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>Total:
+                            <span id="totalDisplay">P0.00</span>
+                        </span>
+                    </div>
+                    <button class="btn btn-danger btn-sm w-100 mt-3" id="claerCartBtn">
+                        <i cls="fas fa-trash-alt"></i>Clear Cart
+                    </button>
                 </div>
             </div>
+            <div class="alert alert-info">
+             <i class="fas fa-truck"></i> <strong>Free Delivery</strong> on orders over P550!<br>
+             <i class="fas fa-gift"></i> Buy 2 or more items for automatic 10% discount(stacks with first-time code? No,best discount applies.)
+            </div>
         </div>
+    </main>
          
     <footer>
-        <p>&copy; 2026 Kesaobaka Tshotlego</p>
+        <p>&copy; 2026 Y2Kesa-Handmade Crochet</p>
     </footer>
 
-            <script>
-                var count = localStorage.getItem("cartCount") || 0;
-                document.querySelector(".price b") .innerText = count;
+     <script>
+           let cart = [];
 
-            
-                var params = new URLSearchParams(window.locatio.search);
-                var item = params.get("item");
-                var price = params.get("price");
+    
+    const CART_STORAGE_KEY = "y2kesaCart";
 
-                if (item && price) {
-                    document.getElementById("cart-items").innerHTML = 
-                    "<p>🛒 " + item +" - P" + price + " added to cart</p>";
-                } else {
-                    document.getElementById("cart-items") .innerHTML =
-                    "<p>You cart is empty.</p>";
-                }
-            </script>
+    function loadCartFromStorage() {
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        if (stored) {
+            cart = JSON.parse(stored);
+        } else {
+            cart = [];
+        }
+        renderCartItems();
+    }
+
+    function saveCartToStorage() {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateNavCartBadge();
+    }
+
+    function updateNavCartBadge() {
+        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const cartLink = document.querySelector('a[href="cart.html"]');
+        if (cartLink) {
+            if (totalQty > 0) cartLink.innerHTML = `🛒 (${totalQty})`;
+            else cartLink.innerHTML = `🛒`;
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function getSubtotal() {
+        return cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
+    }
+
+    let discountAmount = 0;
+
+    function applyDiscountLogic() {
+        const subtotal = getSubtotal();
+        const discountCodeInput = document.getElementById("discountCode");
+        const messageDiv = document.getElementById("discountMessage");
+        if (!discountCodeInput) return;
+
+        const code = discountCodeInput.value.trim().toUpperCase();
+        const hasUsedDiscount = localStorage.getItem("y2kesa_discount_used") === "true";
+        let discount = 0;
+
+        if (!hasUsedDiscount && code === "Y2K10" && subtotal > 0) {
+            discount = subtotal * 0.10;
+            discountAmount = discount;
+            messageDiv.innerHTML = `<span class="text-success">✅ Y2K10 applied! You saved P${discount.toFixed(2)}. Welcome!</span>`;
+        } else if (hasUsedDiscount && code === "Y2K10") {
+            messageDiv.innerHTML = `<span class="text-warning">⚠️ Discount already used by you (one per customer).</span>`;
+            discount = 0;
+            discountAmount = 0;
+        } else if (code !== "" && code !== "Y2K10") {
+            messageDiv.innerHTML = `<span class="text-danger">❌ Invalid discount code. Try "Y2K10".</span>`;
+            discount = 0;
+            discountAmount = 0;
+        } else {
+            messageDiv.innerHTML = ``;
+            discount = 0;
+            discountAmount = 0;
+        }
+
+        const totalAfterDiscount = subtotal - discount;
+        document.getElementById("subtotalDisplay").innerText = `P${subtotal.toFixed(2)}`;
+        const totalSpan = document.getElementById("totalDisplay");
+        if (discount > 0) {
+            totalSpan.innerHTML = `<strong>P${totalAfterDiscount.toFixed(2)}</strong> <small class="text-success">(10% off)</small>`;
+        } else {
+            totalSpan.innerHTML = `<strong>P${totalAfterDiscount.toFixed(2)}</strong>`;
+        }
+        return discount;
+    }
+
+    function renderCartItems() {
+        const container = document.getElementById("cartItemsList");
+        if (!container) return;
+
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="text-center text-muted py-4">Your cart is empty.<br><a href="Crochet-items.html" class="btn btn-sm btn-primary mt-2">Shop Now</a></div>';
+            document.getElementById("subtotalDisplay").innerText = "P0.00";
+            document.getElementById("totalDisplay").innerHTML = "<strong>P0.00</strong>";
+            document.getElementById("discountCode").value = "";
+            document.getElementById("discountMessage").innerHTML = "";
+            discountAmount = 0;
+            return;
+        }
+
+        let itemsHtml = '<div class="list-group list-group-flush">';
+        cart.forEach((item, idx) => {
+            const itemTotal = (item.price || 0) * (item.quantity || 1);
+            itemsHtml += `
+                <div class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="d-flex flex-column" style="min-width: 150px;">
+                        <strong>${escapeHtml(item.name)}</strong>
+                        <span class="text-muted small">P${(item.price || 0).toFixed(2)} each</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+                        <input type="number" min="1" value="${item.quantity || 1}" class="form-control quantity-input" data-index="${idx}" style="width: 70px;">
+                        <button class="btn btn-sm btn-danger remove-item" data-index="${idx}"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="fw-bold mt-2 mt-sm-0">P${itemTotal.toFixed(2)}</div>
+                </div>
+            `;
+        });
+        itemsHtml += '</div>';
+        container.innerHTML = itemsHtml;
+
+        
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const idx = parseInt(input.getAttribute('data-index'));
+                let newQty = parseInt(input.value);
+                if (isNaN(newQty) || newQty < 1) newQty = 1;
+                cart[idx].quantity = newQty;
+                saveCartToStorage();
+                renderCartItems();
+                applyDiscountLogic();
+            });
+        });
+
+        
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-index'));
+                cart.splice(idx, 1);
+                saveCartToStorage();
+                renderCartItems();
+                applyDiscountLogic();
+            });
+        });
+
+        applyDiscountLogic();
+    }
+
+    function clearCart() {
+        if (confirm("Remove all items from your cart?")) {
+            cart = [];
+            saveCartToStorage();
+            renderCartItems();
+            document.getElementById("discountCode").value = "";
+            document.getElementById("discountMessage").innerHTML = "";
+            discountAmount = 0;
+            applyDiscountLogic();
+        }
+    }
+
+    
+    function initDiscountUI() {
+        const used = localStorage.getItem("y2kesa_discount_used") === "true";
+        const inputField = document.getElementById("discountCode");
+        const applyBtn = document.getElementById("applyDiscountBtn");
+        if (used) {
+            if (inputField) inputField.disabled = true;
+            if (applyBtn) applyBtn.disabled = true;
+            const msgDiv = document.getElementById("discountMessage");
+            if (msgDiv) msgDiv.innerHTML = `<span class="text-secondary">🔒 You've already used your first-time discount. Thank you!</span>`;
+        } else {
+            if (inputField) inputField.disabled = false;
+            if (applyBtn) applyBtn.disabled = false;
+        }
+    }
+
+    
+    function setupFormHandler() {
+        const form = document.getElementById("checkoutForm");
+        if (!form) return;
+        form.addEventListener("submit", function(e) {
+            if (cart.length === 0) {
+                e.preventDefault();
+                alert("Your cart is empty. Please add items before checkout.");
+                return false;
+            }
+            const discountCodeField = document.getElementById("discountCode");
+            const enteredCode = discountCodeField ? discountCodeField.value.trim().toUpperCase() : "";
+            const hasUsedBefore = localStorage.getItem("y2kesa_discount_used") === "true";
+            if (!hasUsedBefore && enteredCode === "Y2K10" && getSubtotal() > 0) {
+                localStorage.setItem("y2kesa_discount_used", "true");
+                alert("🎉 First-time discount applied! Thank you for shopping with Y2Kesa.");
+            }
+            return true;
+        });
+    }
+
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        loadCartFromStorage();
+        initDiscountUI();
+        setupFormHandler();
+
+        document.getElementById("applyDiscountBtn")?.addEventListener("click", applyDiscountLogic);
+        document.getElementById("clearCartBtn")?.addEventListener("click", clearCart);
+    });                
+ </script>
 
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> 
  
-     </body>
+ </body>
 </html>
