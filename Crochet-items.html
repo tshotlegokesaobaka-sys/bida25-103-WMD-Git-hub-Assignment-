@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+    <nav class="navbar navbar-expand-lg navbar-transparent bg-transparent"> 
 
         <div class="container"> 
 
@@ -45,7 +45,7 @@
 
                     <li class="nav-item">
                         
-                        <a class="mav-link" href="Pricelist.html">Pricelist</a>
+                        <a class="nav-link" href="Pricelist.html">Pricelist</a>
                         
                     </li>
 
@@ -67,7 +67,7 @@
 
                 <li class="nav-item">
 
-                    <a class="nav-link" href="SignUp/Login.html">Login/SingUp</a>
+                    <a class="nav-link" href="SignUp-Login.html">Login/SingUp</a>
                     
                 </li>
 
@@ -92,8 +92,7 @@
 
 
 
-
-<main>
+    
     <main class="container my-5">
         <h1 class="text-center mb-5">All Crochet-items</h1>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -200,33 +199,66 @@
     
 
 
-</main>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.buundle.min.js"></script>
 
-<footer>
+
+ <footer>
     
 
     <script>
-        function addToCart(item,price) {
-            
-            var count = localStorage.getItem("cartcount");
-            if (!count) {
-                count = 0;
-            }
-            count=parseInt(count) +1;
+       const CART_STORAGE_KEY = "y2kesaCart";
 
+       function getCart() {
+        const stored = localStorage.getItem(CART_KEY);
+        return stored ? JSON.parse(stored) : [];
+    }
+     function saveCart(cart) {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateCartCount();
+    }
+function addToCart(id, name, price, quantity = 1) {
+        let cart = getCart();
+        const existingIndex = cart.findIndex(item => item.id === id);
+        
+        if (existingIndex !== -1) {
             
-            localStorage.setItem("cartCount" , count);
-
+            cart[existingIndex].quantity += quantity;
+        } else {
             
-            window.location.href = "cart.html?item=" + item + "&price=" + price;
+            cart.push({ id, name, price, quantity });
         }
+        
+        saveCart(cart);
+        alert(`${name} added to cart!`);
+        updateCartCount();
+    }
+
+    
+    function updateCartCount() {
+        const cart = getCart();
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartLink = document.querySelector('a[href="cart.html"]');
+        if (cartLink) {
+            if (totalItems > 0) {
+                cartLink.innerHTML = `🛒 (${totalItems})`;
+            } else {
+                cartLink.innerHTML = `🛒`;
+            }
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+    });
+        
     </script>
 
   <p>&copy; 2026 Kesaobaka Tshotlego</p>
 
-</footer>
+ </footer>
+
+ <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> 
 
 
 </body>
